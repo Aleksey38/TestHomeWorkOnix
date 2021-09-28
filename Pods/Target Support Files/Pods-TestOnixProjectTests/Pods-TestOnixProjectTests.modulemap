@@ -1,0 +1,6 @@
+framework module Pods_TestOnixProjectTests {
+  umbrella header "Pods-TestOnixProjectTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
