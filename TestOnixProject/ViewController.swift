@@ -10,18 +10,18 @@ import Alamofire
 
 class ViewController: UIViewController {
     
-    var message = ""
+    var stringUrl = "http://numbersapi.com/random/year"
     
     @IBOutlet weak var label: UILabel!
     @IBAction func button(_ sender: Any) {
         
-        let url = URL(string: "http://numbersapi.com/random/year")
+        let url = URL(string: stringUrl)
         guard let requestUrl = url else { fatalError() }
         
         var request = URLRequest(url: requestUrl)
         request.httpMethod = "GET"
         
-        let task = URLSession.shared.dataTask(with: request) { [self] (data, response, error) in
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             var message = ""
             
             if let error = error {
@@ -30,7 +30,7 @@ class ViewController: UIViewController {
             if let data = data, let dataString = String(data: data, encoding: .utf8) {
                 message = "Response data string:\n \(dataString)"
             }
-            dispatch(message: message)
+            self.dispatch(message: message)
         }
         task.resume()
     }
@@ -40,7 +40,7 @@ class ViewController: UIViewController {
     }
     
     func getMethod() {
-        AF.request("http://numbersapi.com/random/year", parameters: nil, headers: nil).validate(statusCode: 200 ..< 299).responseJSON { [self] response in
+        AF.request(stringUrl, parameters: nil, headers: nil).validate(statusCode: 200 ..< 299).responseJSON { response in
             var message = " "
             
             if let error = response.error  {
@@ -49,7 +49,7 @@ class ViewController: UIViewController {
             if let data = response.data, let response = String(data: data, encoding: .utf8) {
                 message = "Response data string:\n \(response)"
             }
-            dispatch(message: message)
+            self.dispatch(message: message)
         }
     }
     
